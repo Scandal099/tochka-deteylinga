@@ -168,21 +168,6 @@ html.lenis body {
   margin-bottom: calc(14px - var(--wf) * 0.058);
 }
 
-/* intro start states (before GSAP takes over, avoids a flash of final layout) */
-.hero-stage[data-intro="pending"] .hero-letter {
-  transform: translateY(115%);
-}
-.hero-stage[data-intro="pending"] .hero-reveal {
-  opacity: 0;
-  visibility: hidden;
-}
-.hero-stage[data-intro="pending"] .hero-italic {
-  clip-path: inset(-30% 100% -30% -10%);
-}
-.hero-stage[data-intro="pending"] .plate {
-  filter: brightness(0.04);
-}
-
 /* primary pill CTA with icon disc (ref: white pill + arrow) */
 .btn-lux {
   position: relative;
