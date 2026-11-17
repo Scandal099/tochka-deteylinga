@@ -1,5 +1,5 @@
 import { Header } from "@/components/Header";
-import { CinematicScroll } from "@/components/CinematicScroll";
+import { HeroImage } from "@/components/HeroImage";
 import { ServiceCatalog } from "@/components/ServiceCatalog";
 import { BeforeAfterPortfolio } from "@/components/BeforeAfterPortfolio";
 import { ServiceConfigurator } from "@/components/ServiceConfigurator";
@@ -20,7 +20,7 @@ export default function HomePage() {
       </a>
       <Header />
       <main id="main-content">
-        <CinematicScroll />
+        <HeroImage />
         <ServiceCatalog />
         <BeforeAfterPortfolio />
         <ServiceConfigurator />
