@@ -8,7 +8,6 @@ export function HeroImage() {
         src="/hero-photo.jpg"
         alt="Porsche 911"
         className="w-full h-full object-cover"
-        priority
       />
     </section>
   );
