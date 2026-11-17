@@ -445,3 +445,35 @@ html.lenis body {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
 }
+
+/* ---------- Static hero geometry ---------- */
+/* frame is a size container; the box mimics object-cover so the photo, the word
+   and the car cutout share one coordinate system (photo is 2000x1116). */
+.hero-frame {
+  container-type: size;
+}
+.hero-box {
+  --ar: 1.7921;
+  --bw: max(100cqw, calc(100cqh * var(--ar)));
+  --bh: calc(var(--bw) / var(--ar));
+  position: absolute;
+  width: var(--bw);
+  height: var(--bh);
+  left: calc((100cqw - var(--bw)) / 2);
+  top: calc((100cqh - var(--bh)) / 2);
+  container-type: inline-size;
+}
+.hero-band-fade {
+  display: none;
+}
+@media (max-width: 767px) {
+  /* phones: whole car in a wide band instead of a zoomed-in hood */
+  .hero-box {
+    --bw: 170cqw;
+    top: calc(42cqh - var(--bh) / 2);
+  }
+  .hero-band-fade {
+    display: block;
+    background: linear-gradient(to bottom, #08080a 0%, rgba(8, 8, 10, 0) 28%, rgba(8, 8, 10, 0) 68%, #08080a 96%);
+  }
+}

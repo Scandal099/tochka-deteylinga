@@ -39,7 +39,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "header-in fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
         mode === "top" && "border-b border-transparent pt-2 md:pt-[14px]",
         mode === "tour" && "border-b border-transparent",
         mode === "page" && "border-b border-white/[0.07] bg-[#08080A]/75 backdrop-blur-2xl"
