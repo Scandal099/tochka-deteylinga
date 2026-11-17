@@ -153,13 +153,19 @@ html.lenis body {
 
 /* ---------- Hero ---------- */
 .hero-word {
-  font-size: 21.5cqw;
+  --wf: 21.5cqw;
+  font-size: var(--wf);
   letter-spacing: -0.015em;
 }
 @media (max-width: 767px) {
   .hero-word {
-    font-size: 14.2cqw;
+    --wf: 14.2cqw;
   }
+}
+/* sits a fixed 14px above the cap height (caps start ~0.058em below the line box) */
+.hero-meta {
+  letter-spacing: 0.24em;
+  margin-bottom: calc(14px - var(--wf) * 0.058);
 }
 
 /* intro start states (before GSAP takes over, avoids a flash of final layout) */

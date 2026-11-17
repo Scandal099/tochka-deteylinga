@@ -552,8 +552,15 @@ export function CinematicScroll() {
 
           {/* Layer: giant thin word behind the car */}
           <div ref={wordBoxRef} aria-hidden="true" className="pointer-events-none absolute z-10 [container-type:inline-size]">
-            <div ref={heroBackRef} className="absolute inset-x-0 top-[13.5%] flex justify-center will-change-transform max-md:top-[2%]">
-              <span className="hero-word flex select-none font-display font-extralight uppercase leading-[0.8] text-[#ECECEC]">
+            <div ref={heroBackRef} className="absolute inset-x-0 top-[15%] flex justify-center will-change-transform max-md:top-[2%]">
+              <span className="hero-word relative flex select-none font-display font-extralight uppercase leading-[0.8] text-[#ECECEC]">
+                {/* studio line pinned to the word's top-left (ref: label above TERRA), so it can never collide */}
+                <span className="hero-reveal hero-meta absolute bottom-full left-[0.5%] whitespace-nowrap font-sans text-[10px] font-normal leading-relaxed tracking-[0.24em] text-white/55 sm:text-[11px]">
+                  Детейлинг-студия · с {STUDIO_INFO.foundedYear}
+                  <span className="max-md:hidden"> · </span>
+                  <br className="md:hidden" />
+                  <span className="text-white/85">Москва, Митино</span>
+                </span>
                 {HERO_WORD.split("").map((ch, i) => (
                   <span key={i} className="inline-block overflow-hidden pb-[0.04em]">
                     <span className="hero-letter inline-block">{ch}</span>
@@ -587,17 +594,6 @@ export function CinematicScroll() {
 
           {/* Layer: hero copy, CTA, meta */}
           <div ref={heroFrontRef} className="absolute inset-0 z-30 will-change-transform">
-            {/* top meta row (ref: small studio line above the headline) */}
-            <div className="absolute inset-x-0 top-[84px] px-6 sm:top-[100px] lg:px-14">
-              <div className="mx-auto flex max-w-[1600px] items-start justify-between">
-                <p className="hero-reveal text-[10px] uppercase leading-relaxed tracking-[0.24em] text-white/55 sm:text-[11px]">
-                  Детейлинг-студия · с {STUDIO_INFO.foundedYear}
-                  <span className="max-md:hidden"> · </span>
-                  <br className="md:hidden" />
-                  <span className="text-white/85">Москва, Митино</span>
-                </p>
-              </div>
-            </div>
 
             <ul className="absolute right-6 top-[47%] hidden space-y-1.5 text-right text-[11px] uppercase tracking-[0.2em] text-white/70 md:block lg:right-14">
               {HERO_SERVICES.map((s) => (

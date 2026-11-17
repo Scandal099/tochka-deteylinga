@@ -25,7 +25,8 @@ export function Header() {
       const hero = document.getElementById("hero-stage");
       const heroEnd = hero ? hero.offsetTop + hero.offsetHeight - window.innerHeight : 0;
       const y = window.scrollY;
-      setMode(y < 40 ? "top" : y < heroEnd - 10 ? "tour" : "page");
+      // "top" lasts until the framed hero has fully opened (≈0.4 viewport of scroll)
+      setMode(y < window.innerHeight * 0.4 ? "top" : y < heroEnd - 10 ? "tour" : "page");
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -41,7 +42,7 @@ export function Header() {
       className={cn(
         "header-in fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
         mode === "top" && "border-b border-transparent pt-2 md:pt-[14px]",
-        mode === "tour" && "border-b border-transparent bg-gradient-to-b from-[#08080A]/70 to-transparent",
+        mode === "tour" && "border-b border-transparent",
         mode === "page" && "border-b border-white/[0.07] bg-[#08080A]/75 backdrop-blur-2xl"
       )}
     >
