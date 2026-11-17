@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+.tmp-frames/
+*.tsbuildinfo
+.env
+.env.local
+.claude/
+
+# raw 4K/1080p source clips (frames are generated into public/frames)
+video/
+video4k/

@@ -1,0 +1,174 @@
+export interface PortfolioCase {
+  id: string;
+  carModel: string;
+  title: string;
+  workSummary: string;
+  duration: string;
+  priceTag: string;
+  beforeImage: string;
+  afterImage: string;
+  beforeLabel: string;
+  afterLabel: string;
+  serviceIds: string[];
+  sourceNote: string;
+}
+
+export interface ProcessStage {
+  step: string;
+  title: string;
+  description: string;
+  metric: string;
+}
+
+export interface StudioReview {
+  id: string;
+  author: string;
+  badge: string;
+  date: string;
+  rating: number;
+  serviceTag: string;
+  text: string;
+}
+
+export const PORTFOLIO_CASES: readonly PortfolioCase[] = [
+  {
+    id: "case-bmw-f32",
+    carModel: "BMW 4 Series (F32)",
+    title: "Восстановительная полировка и 2 слоя керамики",
+    workSummary:
+      "Удаление моек-голограмм, глубокая коррекция лака в 2 прохода и нанесение двухслойной керамической защиты.",
+    duration: "2 дня",
+    priceTag: "от 30 000 ₽",
+    beforeImage: "/images/portfolio/case-polish-before.webp",
+    afterImage: "/images/portfolio/case-polish-after.webp",
+    beforeLabel: "До: паутина и голограммы под светом",
+    afterLabel: "После: зеркальный глянец + 2 слоя керамики",
+    serviceIds: ["body-polish-ceramic-duo", "interior-detail-clean"],
+    sourceNote: "Кейс на базе отзыва клиента BMW F32 и прайса студии",
+  },
+  {
+    id: "case-ppf-antichrome",
+    carModel: "Спорткупе · Infiniti Q60S / аналог",
+    title: "Оклейка «зон риска» полиуретаном + Антихром",
+    workSummary:
+      "Защита передней части кузова антигравийной полиуретановой плёнкой с подворотами и перевод молдингов в чёрный глянец.",
+    duration: "2 дня",
+    priceTag: "от 85 000 ₽",
+    beforeImage: "/images/portfolio/case-ppf-before.webp",
+    afterImage: "/images/portfolio/case-ppf-after.webp",
+    beforeLabel: "До: следы трассы и заводской хром",
+    afterLabel: "После: полиуретан 200 мкм + монохромный антихром",
+    serviceIds: ["protect-ppf-risk-zones", "protect-antichrome"],
+    sourceNote: "Реальные услуги оклейки из галереи и прайса Яндекс Карт",
+  },
+  {
+    id: "case-interior-leather",
+    carModel: "Премиальный салон · Porsche 911",
+    title: "Детейлинг-химчистка и защита кожи керамикой",
+    workSummary:
+      "Очистка руля, перфорации и боковин кресел без залоснивания, консервация кожи матовым защитным составом.",
+    duration: "1 день",
+    priceTag: "от 25 000 ₽",
+    beforeImage: "/images/portfolio/case-interior-before.webp",
+    afterImage: "/images/portfolio/case-interior-after.webp",
+    beforeLabel: "До: глянцевый износ и следы эксплуатации",
+    afterLabel: "После: матовая заводская кожа и керамика",
+    serviceIds: ["interior-detail-clean", "interior-leather-ceramic"],
+    sourceNote: "Прайс-программа химчистки и защиты кожи студии",
+  },
+] as const;
+
+export const STUDIO_PROCESS_STEPS: readonly ProcessStage[] = [
+  {
+    step: "01",
+    title: "Приёмка и двухфазная мойка",
+    description:
+      "Смываем дорожную статику, битум и металлические вкрапления. Фиксируем состояние кузова и согласуем чёткий план работ до старта.",
+    metric: "Фиксация каждого дефекта",
+  },
+  {
+    step: "02",
+    title: "Инспекционный свет и замер ЛКП",
+    description:
+      "Осматриваем каждую панель под калиброванным светом CRI 95+ и замеряем толщину заводского лака толщиномером на каждом элементе.",
+    metric: "Точность замера 1 мкм",
+  },
+  {
+    step: "03",
+    title: "Работа мастеров по регламенту",
+    description:
+      "Полировка без перегрева лака, оклейка полиуретаном с аккуратным подворотом краёв и деликатная химчистка без резкой химии.",
+    metric: "Опыт команды с 2012 года",
+  },
+  {
+    step: "04",
+    title: "Фото- и видеоотчёт этапов",
+    description:
+      "По ходу работы отправляем живые фото и видео из бокса в мессенджер, чтобы вы видели каждый этап подготовки вашего авто.",
+    metric: "Прозрачный контроль",
+  },
+  {
+    step: "05",
+    title: "Контроль выдачи и гарантия",
+    description:
+      "Финальная проверка под студийным светом, рекомендации по безопасной мойке и официальная гарантия до 2 лет на выполненные работы.",
+    metric: "Рейтинг 5.0 · 499 отзывов",
+  },
+] as const;
+
+export const VERIFIED_REVIEWS: readonly StudioReview[] = [
+  {
+    id: "rev-denis",
+    author: "Денис Клевакин",
+    badge: "Знаток города 6 уровня · Яндекс Карты",
+    date: "17 июля 2025",
+    rating: 5,
+    serviceTag: "BMW F32 · Полировка + керамика + химчистка + руль",
+    text: "Записывался на перешив руля на BMW F32. Пока показывал машину, предложили сделать полировку с керамикой и химчистку салона. Сделали всё быстро. Когда забирал машину — как будто с салона новую взял! Всё идеально.",
+  },
+  {
+    id: "rev-natalia",
+    author: "Наталья",
+    badge: "Знаток города 6 уровня · Яндекс Карты",
+    date: "10 августа 2025",
+    rating: 5,
+    serviceTag: "Защитная плёнка + тонировка + антихром",
+    text: "Регулярно езжу только туда на мойку, делала тонировку, покраску бампера и нанесение защитной плёнки — результат фантастический. Недавно вновь обращалась в ТОЧКУ ДЕТЕЙЛИНГА для выполнения антихрома — результат, как всегда, выше всяких похвал.",
+  },
+  {
+    id: "rev-evgenia",
+    author: "Евгения Решетникова",
+    badge: "Знаток города 8 уровня · Яндекс Карты",
+    date: "13 июля 2025",
+    rating: 5,
+    serviceTag: "PDR · Выправка вмятин без окраса",
+    text: "Отличное качество за приемлемые деньги. Всегда очень бережное отношение к автомобилю любого класса. Особое спасибо мастеру Александру, который выправил вмятинки на двух дверях. Потратил весь день на машину и сделал всё по лучшему качеству. Машинка как новая!",
+  },
+  {
+    id: "rev-ivan-d",
+    author: "Иван Д.",
+    badge: "Знаток города 4 уровня · Яндекс Карты",
+    date: "5 августа 2025",
+    rating: 5,
+    serviceTag: "Полировка + керамика + салон + перетяжка",
+    text: "Делал полировку кузова + керамику, полировку глянцевых элементов салона, перетянули руль и водительское сиденье. Всё отлично сделали. 2 дня — и машина у меня.",
+  },
+  {
+    id: "rev-irina",
+    author: "Ирина Ипатова",
+    badge: "Знаток города 9 уровня · Яндекс Карты",
+    date: "3 марта",
+    rating: 5,
+    serviceTag: "PDR + полировка сколов + кузовной ремонт",
+    text: "Замечательный сервис, ребята профессионалы! Филигранно ликвидируют вмятины, полируют царапины и сколы, красят детали, сами ищут запчасти на замену. Скорость, качество работ и дружелюбные цены.",
+  },
+  {
+    id: "rev-yasmina",
+    author: "Ясмина Хисматуллина",
+    badge: "Знаток города 4 уровня · Яндекс Карты",
+    date: "16 июня",
+    rating: 5,
+    serviceTag: "Антикоррозийная защита кузова",
+    text: "Записали на ближайшую дату, привезла свою машину и уехала по делам. Процесс работы скидывали — очень удобно видеть, как делают. Работа выполнена качественно, рекомендую.",
+  },
+] as const;
