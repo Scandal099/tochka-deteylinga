@@ -20,6 +20,11 @@ import { assetPath, cn } from "@/lib/utils";
 
 const IMG_ASPECT = 16 / 9;
 const PORTRAIT_BAND_SCALE = 1.7;
+const PORTRAIT_TOUR_SCALE = 2.05;
+const tourBlend = (p: number) => {
+  const t = Math.max(0, Math.min(1, (p - 0.05) / 0.045));
+  return 1 - Math.pow(1 - t, 3);
+};
 
 interface FrameRect {
   x: number;
@@ -29,12 +34,15 @@ interface FrameRect {
   portrait: boolean;
 }
 
-function getFrameRect(vw: number, vh: number): FrameRect {
+/** t: 0 = hero composition, 1 = tour (bigger band, lifted above the scene card). */
+function getFrameRect(vw: number, vh: number, t = 0): FrameRect {
   const portrait = vw / vh < 0.9;
   if (portrait) {
-    const w = vw * PORTRAIT_BAND_SCALE;
+    const scale = PORTRAIT_BAND_SCALE + (PORTRAIT_TOUR_SCALE - PORTRAIT_BAND_SCALE) * t;
+    const cy = 0.42 + (0.355 - 0.42) * t;
+    const w = vw * scale;
     const h = w / IMG_ASPECT;
-    return { x: (vw - w) / 2, y: vh * 0.42 - h / 2, w, h, portrait };
+    return { x: (vw - w) / 2, y: vh * cy - h / 2, w, h, portrait };
   }
   if (vw / vh > IMG_ASPECT) {
     const h = vw / IMG_ASPECT;
@@ -52,6 +60,14 @@ function getSceneIndexForProgress(progress: number): number {
 }
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+
+/**
+ * The sequence stays on frame 1 while the hero exits, so the hi-res poster and
+ * the canvas show the exact same picture — no ghosting when the poster goes.
+ */
+const HERO_HOLD = 0.05;
+const frameForProgress = (p: number) =>
+  Math.round(clamp01((p - HERO_HOLD) / (1 - HERO_HOLD)) * (TOTAL_FRAMES - 1));
 const range = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -86,6 +102,7 @@ export function CinematicScroll() {
   const finestStrideRef = useRef<number>(1);
   const lastDrawnIdxRef = useRef<number>(-1);
   const rectRef = useRef<FrameRect>({ x: 0, y: 0, w: 1, h: 1, portrait: false });
+  const blendRef = useRef(0);
   const targetProgressRef = useRef(0);
   const smoothProgressRef = useRef(0);
 
@@ -162,7 +179,7 @@ export function CinematicScroll() {
             loadingRef.current.delete(idx);
             imagesRef.current[idx] = img;
             loadedRef.current[idx] = true;
-            const wanted = Math.round(smoothProgressRef.current * (TOTAL_FRAMES - 1));
+            const wanted = frameForProgress(smoothProgressRef.current);
             if (idx === 0 || Math.abs(idx - wanted) <= 2) renderFrameToCanvas(wanted, true);
             resolve();
           };
@@ -216,8 +233,9 @@ export function CinematicScroll() {
       if (!canvas || !stage) return;
       const vw = stage.clientWidth;
       const vh = stage.clientHeight;
-      const r = getFrameRect(vw, vh);
+      const r = getFrameRect(vw, vh, tourBlend(smoothProgressRef.current));
       rectRef.current = r;
+      blendRef.current = tourBlend(smoothProgressRef.current);
 
       const place = (el: HTMLElement | null) => {
         if (!el) return;
@@ -240,7 +258,7 @@ export function CinematicScroll() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(vw * dpr);
       canvas.height = Math.round(vh * dpr);
-      renderFrameToCanvas(Math.round(smoothProgressRef.current * (TOTAL_FRAMES - 1)), true);
+      renderFrameToCanvas(frameForProgress(smoothProgressRef.current), true);
     };
     layout();
     const ro = new ResizeObserver(layout);
@@ -384,7 +402,8 @@ export function CinematicScroll() {
       if (frameBorderRef.current) frameBorderRef.current.style.visibility = open < 0.98 ? "visible" : "hidden";
 
       const exit = range(p, 0.006, 0.05);
-      const plates = 1 - range(p, 0.01, 0.045);
+      // hard switch (no cross-fade): the canvas underneath is the same frame
+      const plates = p < HERO_HOLD - 0.002 ? 1 : 0;
       if (posterRef.current) {
         posterRef.current.style.opacity = String(plates);
         posterRef.current.style.visibility = plates > 0.001 ? "visible" : "hidden";
@@ -441,8 +460,23 @@ export function CinematicScroll() {
         Math.abs(diff) < 0.00015 ? targetProgressRef.current : smoothProgressRef.current + diff * alpha;
 
       const p = clamp01(smoothProgressRef.current);
-      const frame = Math.round(p * (TOTAL_FRAMES - 1));
-      renderFrameToCanvas(frame);
+      const frame = frameForProgress(p);
+
+      // phones: grow/lift the video band as the tour starts
+      let forceDraw = false;
+      const blend = tourBlend(p);
+      if (rectRef.current.portrait && Math.abs(blend - blendRef.current) > 0.0005 && stageRef.current) {
+        blendRef.current = blend;
+        const r = getFrameRect(stageRef.current.clientWidth, stageRef.current.clientHeight, blend);
+        rectRef.current = r;
+        const fade = bandFadeRef.current;
+        if (fade) {
+          fade.style.top = `${r.y - 3}px`;
+          fade.style.height = `${r.h + 6}px`;
+        }
+        forceDraw = true;
+      }
+      renderFrameToCanvas(frame, forceDraw);
       apply(p);
 
       const now = performance.now();
@@ -468,7 +502,7 @@ export function CinematicScroll() {
 
   const jumpToScene = useCallback(
     (scene: ScrollScene) => {
-      const frameIdx = Math.round(scene.focusProgress * (TOTAL_FRAMES - 1));
+      const frameIdx = frameForProgress(scene.focusProgress);
       prioritizeWindow(frameIdx);
       const st = scrollTriggerRef.current;
       if (reducedMotion || !st) {
@@ -712,21 +746,21 @@ export function CinematicScroll() {
             {/* Scene card */}
             <div className="absolute inset-x-0 bottom-20 px-4 sm:bottom-10 sm:px-7 lg:px-14">
               <div className="mx-auto flex max-w-[1600px] items-end justify-between gap-4">
-                <div className="glass-lux pointer-events-auto w-full max-w-[460px] rounded-[22px] p-5 sm:p-7">
+                <div className="glass-lux pointer-events-auto w-full max-w-[460px] rounded-[22px] p-4 sm:p-7">
                   <div key={activeScene.id} className="animate-in fade-in slide-in-from-bottom-2 duration-700">
                     <p className="text-[10px] uppercase tracking-[0.24em] text-white/50">
                       Зона {activeScene.code} / 07 · {activeScene.zoneLabel}
                     </p>
-                    <h2 className="mt-3 text-[22px] font-light leading-[1.15] tracking-[-0.015em] text-[#F3F3F1] sm:text-[26px]">
+                    <h2 className="mt-2 text-[19px] sm:mt-3 sm:text-[22px] font-light leading-[1.15] tracking-[-0.015em] text-[#F3F3F1] lg:text-[26px]">
                       {activeScene.title}{" "}
                       <span className="font-serif text-[1.15em] italic text-white/80">{activeScene.italicAccent}</span>
                     </h2>
-                    <p className="mt-3 text-[13px] font-light leading-relaxed text-white/60">
+                    <p className="mt-3 text-[13px] font-light leading-relaxed text-white/60 max-sm:mt-2 max-sm:line-clamp-2 max-sm:text-[12.5px]">
                       {activeScene.description}
                     </p>
 
                     {!activeScene.isSummary && primaryService && (
-                      <div className="mt-5 space-y-3 border-t border-white/10 pt-4">
+                      <div className="mt-4 space-y-3 border-t border-white/10 pt-3 sm:mt-5 sm:pt-4">
                         <div className="flex items-center justify-between gap-3">
                           <div>
                             <p className="text-[15px] font-medium tabular-nums text-[#F3F3F1]">
@@ -757,7 +791,7 @@ export function CinematicScroll() {
                         </div>
 
                         {secondaryService && (
-                          <div className="flex items-center justify-between gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.025] px-3.5 py-2.5">
+                          <div className="max-sm:hidden flex items-center justify-between gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.025] px-3.5 py-2.5">
                             <div className="min-w-0 flex-1">
                               <p className="truncate text-[12px] text-[#F3F3F1]">{secondaryService.name}</p>
                               <p className="text-[11px] tabular-nums text-white/45">
