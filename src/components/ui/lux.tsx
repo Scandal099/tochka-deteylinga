@@ -49,7 +49,7 @@ function MaskLine({
   className?: string;
 }) {
   return (
-    <span className={cn("block overflow-hidden pb-[0.08em]", className)}>
+    <span className={cn("block pb-[0.08em] [clip-path:inset(-0.2em_-100vw_0_-100vw)]", className)}>
       <motion.span
         className="block"
         initial={{ y: "110%" }}
@@ -90,7 +90,7 @@ export function SectionHeading({
 
   return (
     <div ref={ref} className={cn("flex flex-col justify-between gap-10 lg:flex-row lg:items-end", className)}>
-      <div className="max-w-3xl">
+      <div className="min-w-0">
         <Reveal className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] text-white/45 sm:text-[11px]">
           <span className="tabular-nums text-white/80">({index})</span>
           <span className="h-px w-10 bg-white/25" />

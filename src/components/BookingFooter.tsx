@@ -316,8 +316,8 @@ export function BookingFooter() {
       </div>
 
       {/* sign-off wordmark */}
-      <div aria-hidden="true" className="pointer-events-none mt-10 select-none overflow-hidden">
-        <p className="translate-y-[18%] text-center font-display text-[25vw] font-extralight uppercase leading-[0.8] tracking-[-0.04em] text-white/[0.06]">
+      <div aria-hidden="true" className="pointer-events-none mt-10 select-none overflow-hidden pb-[3vw]">
+        <p className="text-center font-display text-[25vw] font-extralight uppercase leading-[0.8] tracking-[-0.04em] text-white/[0.06]">
           Точка
         </p>
       </div>
