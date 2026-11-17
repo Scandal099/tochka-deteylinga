@@ -7,7 +7,6 @@ import { useCarePlan } from "@/context/CarePlanContext";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "7 зон", href: "#cinematic-tour" },
   { label: "Услуги", href: "#services" },
   { label: "До / После", href: "#portfolio" },
   { label: "Подбор", href: "#configurator" },

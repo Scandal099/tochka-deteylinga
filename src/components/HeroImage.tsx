@@ -10,7 +10,7 @@ export function HeroImage() {
       <img
         src={assetPath("/hero-photo.jpg")}
         alt="Porsche 911 в студии детейлинга"
-        className="h-full w-full object-cover"
+        className="h-full w-full object-cover object-[40%_50%] md:object-center"
         fetchPriority="high"
       />
     </section>
