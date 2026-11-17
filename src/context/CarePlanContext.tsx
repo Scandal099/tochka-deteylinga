@@ -10,8 +10,6 @@ import React, {
 } from "react";
 import { getServiceById, type DetailingService } from "@/data/services";
 
-export type CarClassId = "sedan" | "crossover" | "coupe" | "suv";
-
 interface CarePlanContextValue {
   itemIds: string[];
   services: DetailingService[];
@@ -19,8 +17,6 @@ interface CarePlanContextValue {
   totalFrom: number;
   drawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
-  carClass: CarClassId;
-  setCarClass: (carClass: CarClassId) => void;
   isInPlan: (id: string) => boolean;
   addItem: (id: string) => void;
   removeItem: (id: string) => void;
@@ -30,13 +26,11 @@ interface CarePlanContextValue {
 }
 
 const STORAGE_KEY = "tochka_deteylinga_care_plan_v1";
-const CAR_CLASS_KEY = "tochka_deteylinga_car_class_v1";
 
 const CarePlanContext = createContext<CarePlanContextValue | null>(null);
 
 export function CarePlanProvider({ children }: { children: React.ReactNode }) {
   const [itemIds, setItemIds] = useState<string[]>([]);
-  const [carClass, setCarClassState] = useState<CarClassId>("coupe");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
@@ -53,15 +47,6 @@ export function CarePlanProvider({ children }: { children: React.ReactNode }) {
           setItemIds(Array.from(new Set(valid)));
         }
       }
-      const savedClass = window.localStorage.getItem(CAR_CLASS_KEY);
-      if (
-        savedClass === "sedan" ||
-        savedClass === "crossover" ||
-        savedClass === "coupe" ||
-        savedClass === "suv"
-      ) {
-        setCarClassState(savedClass);
-      }
     } catch {
       // Ignore storage access errors in restricted modes
     } finally {
@@ -77,15 +62,6 @@ export function CarePlanProvider({ children }: { children: React.ReactNode }) {
       // Ignore storage write errors
     }
   }, [itemIds, hydrated]);
-
-  const setCarClass = useCallback((next: CarClassId) => {
-    setCarClassState(next);
-    try {
-      window.localStorage.setItem(CAR_CLASS_KEY, next);
-    } catch {
-      // Ignore storage write errors
-    }
-  }, []);
 
   const isInPlan = useCallback(
     (id: string) => itemIds.includes(id),
@@ -139,8 +115,6 @@ export function CarePlanProvider({ children }: { children: React.ReactNode }) {
       totalFrom,
       drawerOpen,
       setDrawerOpen,
-      carClass,
-      setCarClass,
       isInPlan,
       addItem,
       removeItem,
@@ -153,8 +127,6 @@ export function CarePlanProvider({ children }: { children: React.ReactNode }) {
       services,
       totalFrom,
       drawerOpen,
-      carClass,
-      setCarClass,
       isInPlan,
       addItem,
       removeItem,

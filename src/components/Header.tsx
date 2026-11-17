@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Menu, X, ArrowRight, ArrowUpRight, Sparkles, Phone } from "lucide-react";
+import { Menu, X, ArrowUpRight, Sparkles, Phone } from "lucide-react";
 import { STUDIO_INFO } from "@/data/studio";
 import { useCarePlan } from "@/context/CarePlanContext";
 import { cn } from "@/lib/utils";
+import { openCallback } from "@/lib/callback";
 
 const NAV_ITEMS = [
-  { label: "Услуги", href: "#services" },
-  { label: "Подбор", href: "#configurator" },
+  { label: "Цены", href: "#services" },
+  { label: "Направления", href: "#directions" },
   { label: "Подход", href: "#process" },
+  { label: "Отзывы", href: "#reviews" },
   { label: "Контакты", href: "#booking" },
 ] as const;
 
@@ -39,7 +41,7 @@ export function Header() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        mode === "top" && "border-b border-transparent pt-2 md:pt-[14px]",
+        mode === "top" && "border-b border-transparent",
         mode === "tour" && "border-b border-transparent",
         mode === "page" && "border-b border-white/[0.07] bg-[#08080A]/75 backdrop-blur-2xl"
       )}
@@ -86,12 +88,19 @@ export function Header() {
           </button>
 
           <a
-            href="#booking"
-            aria-label="Записаться"
-            className="group hidden h-11 w-11 items-center justify-center rounded-full border border-white/40 text-[#F3F3F1] transition-all duration-500 hover:border-white hover:bg-white hover:text-[#08080A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:inline-flex"
+            href={STUDIO_INFO.phones.detailing.href}
+            className="hidden whitespace-nowrap px-2 text-[12px] tabular-nums tracking-[0.06em] text-white/80 transition-colors hover:text-white 2xl:inline"
           >
-            <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:-rotate-45" aria-hidden="true" />
+            {STUDIO_INFO.phones.detailing.display}
           </a>
+          <button
+            type="button"
+            onClick={() => openCallback()}
+            className="hidden h-11 cursor-pointer items-center gap-2 rounded-full border border-white/40 px-5 text-[11px] uppercase tracking-[0.18em] text-[#F3F3F1] transition-all duration-500 hover:border-white hover:bg-white hover:text-[#08080A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:inline-flex"
+          >
+            <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+            Заказать звонок
+          </button>
 
           <button
             type="button"
@@ -105,47 +114,40 @@ export function Header() {
         </div>
       </div>
 
-      {/* Responsive Mobile Menu Panel */}
+      {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-white/12 bg-[#08080A]/96 px-4 pb-6 pt-4 backdrop-blur-2xl xl:hidden">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-3">
-            <div className="flex flex-wrap gap-2">
-              {NAV_ITEMS.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-full border border-white/14 bg-white/[0.04] px-4 py-2 text-xs uppercase tracking-[0.14em] text-[#F5F5F5] transition-colors hover:border-white/35"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-            <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-xs text-[#9A9CA2]">
-                <p className="font-medium text-[#F5F5F5]">{STUDIO_INFO.brandName}</p>
-                <p>
-                  {STUDIO_INFO.addressShort} · {STUDIO_INFO.hours}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <a
-                  href={STUDIO_INFO.phones.detailing.href}
-                  className="inline-flex min-h-[42px] items-center gap-2 rounded-full border border-white/18 px-4 py-2 text-xs text-[#F5F5F5]"
-                >
-                  <Phone className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>{STUDIO_INFO.phones.detailing.display}</span>
-                </a>
-                <a
-                  href="#booking"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="inline-flex min-h-[42px] items-center gap-1.5 rounded-full bg-[#F5F5F5] px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#08080A]"
-                >
-                  <span>Записаться</span>
-                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
-              </div>
-            </div>
+        <div className="max-h-[calc(100svh-64px)] overflow-y-auto border-t border-white/10 bg-[#08080A]/97 px-6 pb-8 pt-2 backdrop-blur-2xl xl:hidden">
+          <nav aria-label="Меню" className="flex flex-col">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between border-b border-white/[0.08] py-4 text-[22px] font-light text-[#F3F3F1]"
+              >
+                {item.label}
+                <ArrowUpRight className="h-4 w-4 text-white/40" aria-hidden="true" />
+              </a>
+            ))}
+          </nav>
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                openCallback();
+              }}
+              className="btn-lux btn-lux--plain w-full cursor-pointer justify-center"
+            >
+              Заказать звонок
+            </button>
+            <a href={STUDIO_INFO.phones.detailing.href} className="btn-ghost w-full">
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              {STUDIO_INFO.phones.detailing.display}
+            </a>
+            <p className="pt-2 text-center text-[12px] font-light text-white/45">
+              {STUDIO_INFO.addressShort} · {STUDIO_INFO.hours}
+            </p>
           </div>
         </div>
       )}

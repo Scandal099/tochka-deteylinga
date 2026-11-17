@@ -9,7 +9,8 @@ import { setLenis } from "@/lib/lenis";
 /** Inertia scroll driven by the GSAP ticker so ScrollTrigger stays in sync. */
 export function SmoothScroll() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // phones keep native scrolling: smoothing touch scroll feels laggy/jittery there
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
 
     gsap.registerPlugin(ScrollTrigger);
     const lenis = new Lenis({

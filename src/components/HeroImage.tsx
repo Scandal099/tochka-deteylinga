@@ -11,7 +11,7 @@ const HERO_SERVICES = ["Полировка", "Керамика", "Защита P
  */
 export function HeroImage() {
   return (
-    <section id="hero-stage" aria-label="Первый экран" className="relative h-[100dvh] w-full bg-[#08080A]">
+    <section id="hero-stage" aria-label="Первый экран" className="relative h-[100svh] w-full bg-[#08080A]">
       <div className="hero-frame absolute inset-2 overflow-hidden rounded-[22px] bg-[#08080A] md:inset-[14px] md:rounded-[28px]">
         <div className="hero-box">
           {/* eslint-disable-next-line @next/next/no-img-element */}

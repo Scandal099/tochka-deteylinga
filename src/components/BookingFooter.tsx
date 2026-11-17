@@ -12,27 +12,13 @@ import {
   X,
 } from "lucide-react";
 import { STUDIO_INFO } from "@/data/studio";
-import { type CarClassId, useCarePlan } from "@/context/CarePlanContext";
+import { useCarePlan } from "@/context/CarePlanContext";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Reveal, SectionHeading } from "@/components/ui/lux";
 
-const CAR_CLASS_LABELS: Record<CarClassId, string> = {
-  sedan: "Седан / Хэтчбек",
-  coupe: "Спорткар / Купе",
-  crossover: "Кроссовер",
-  suv: "Внедорожник / Минивэн",
-};
-
 export function BookingFooter() {
-  const { services, totalFrom, carClass, setCarClass, removeItem } = useCarePlan();
+  const { services, totalFrom, removeItem } = useCarePlan();
 
   const [carModel, setCarModel] = useState("");
   const [clientName, setClientName] = useState("");
@@ -54,9 +40,9 @@ export function BookingFooter() {
 
     return [
       `Заявка в студию ${STUDIO_INFO.brandName}`,
-      `Автомобиль: ${carModel.trim() || "Не указан"} (${CAR_CLASS_LABELS[carClass]})`,
+      `Автомобиль: ${carModel.trim() || "Не указан"}`,
       `Имя: ${clientName.trim() || "Не указано"}`,
-      `Контакт: ${contact.trim()}`,
+      `Телефон: ${contact.trim()}`,
       `План ухода:`,
       planLines,
       totalLine,
@@ -64,7 +50,7 @@ export function BookingFooter() {
     ]
       .filter(Boolean)
       .join("\n");
-  }, [carClass, carModel, clientName, comment, contact, services, totalFrom]);
+  }, [carModel, clientName, comment, contact, services, totalFrom]);
 
   const whatsappHref = useMemo(() => {
     return `https://wa.me/79299991819?text=${encodeURIComponent(formattedOrderText)}`;
@@ -73,11 +59,11 @@ export function BookingFooter() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!carModel.trim()) {
-      setErrorMsg("Укажите марку и модель автомобиля (например, Porsche 911 или BMW X5).");
+      setErrorMsg("Укажите марку автомобиля.");
       return;
     }
     if (!contact.trim()) {
-      setErrorMsg("Укажите номер телефона или ник в Telegram для подтверждения записи.");
+      setErrorMsg("Укажите телефон, чтобы мы могли перезвонить.");
       return;
     }
     setErrorMsg("");
@@ -169,10 +155,13 @@ export function BookingFooter() {
             <div className="card-lux p-7 sm:p-12">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <p className="label-lux">Онлайн-запись</p>
-                  <h3 className="mt-3 text-[28px] font-light leading-tight tracking-[-0.015em] text-[#F3F3F1] sm:text-[34px]">
-                    Записаться на <span className="font-serif italic text-white/85">осмотр</span>
+                  <p className="label-lux">Онлайн-заявка</p>
+                  <h3 className="mt-3 text-[26px] font-light leading-tight tracking-[-0.015em] text-[#F3F3F1] sm:text-[34px]">
+                    Записаться на осмотр
                   </h3>
+                  <p className="mt-2 text-[14px] font-light text-white/50">
+                    Получите персональное предложение под ваш автомобиль.
+                  </p>
                 </div>
                 {totalFrom > 0 && (
                   <p className="text-right">
@@ -224,40 +213,21 @@ export function BookingFooter() {
 
               {!submitted ? (
                 <form onSubmit={handleSubmit} className="mt-10 space-y-8" noValidate>
-                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
                     <div>
                       <Label htmlFor="booking-car-model" className="label-lux">
-                        Марка и модель *
+                        Марка авто *
                       </Label>
                       <input
                         id="booking-car-model"
                         type="text"
                         required
+                        autoComplete="off"
                         value={carModel}
                         onChange={(e) => setCarModel(e.target.value)}
-                        placeholder="Porsche 911 / BMW F32"
+                        placeholder="Например, BMW X5"
                         className={fieldCls}
                       />
-                    </div>
-                    <div>
-                      <Label htmlFor="booking-car-class" className="label-lux">
-                        Класс кузова
-                      </Label>
-                      <Select value={carClass} onValueChange={(v) => setCarClass(v as CarClassId)}>
-                        <SelectTrigger
-                          id="booking-car-class"
-                          className="h-auto w-full rounded-none border-0 border-b border-white/16 bg-transparent px-0 py-[14px] text-[16px] font-light text-[#F3F3F1] shadow-none focus-visible:ring-0 dark:bg-transparent"
-                        >
-                          <SelectValue placeholder="Выберите класс" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-2xl border-white/10 bg-[#111113] text-[#F3F3F1]">
-                          {Object.entries(CAR_CLASS_LABELS).map(([id, label]) => (
-                            <SelectItem key={id} value={id}>
-                              {label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
                     </div>
                     <div>
                       <Label htmlFor="booking-name" className="label-lux">
@@ -266,19 +236,22 @@ export function BookingFooter() {
                       <input
                         id="booking-name"
                         type="text"
+                        autoComplete="name"
                         value={clientName}
                         onChange={(e) => setClientName(e.target.value)}
-                        placeholder="Как к вам обращаться"
+                        placeholder="Имя"
                         className={fieldCls}
                       />
                     </div>
                     <div>
                       <Label htmlFor="booking-contact" className="label-lux">
-                        Телефон или @Telegram *
+                        Телефон *
                       </Label>
                       <input
                         id="booking-contact"
-                        type="text"
+                        type="tel"
+                        inputMode="tel"
+                        autoComplete="tel"
                         required
                         value={contact}
                         onChange={(e) => setContact(e.target.value)}
@@ -289,14 +262,14 @@ export function BookingFooter() {
                   </div>
                   <div>
                     <Label htmlFor="booking-comment" className="label-lux">
-                      Пожелания или удобная дата
+                      Комментарий
                     </Label>
                     <textarea
                       id="booking-comment"
                       rows={2}
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
-                      placeholder="Например: удобнее в пятницу утром, нужен замер ЛКП"
+                      placeholder="Что нужно сделать, удобная дата"
                       className={cn(fieldCls, "resize-none")}
                     />
                   </div>
@@ -309,13 +282,17 @@ export function BookingFooter() {
 
                   <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between">
                     <button type="submit" className="btn-lux group cursor-pointer">
-                      <span>Сформировать запись</span>
+                      <span>Отправить заявку</span>
                       <span className="btn-lux-icon">
                         <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                       </span>
                     </button>
-                    <p className="text-[12px] font-light leading-snug text-white/40 sm:max-w-[240px] sm:text-right">
-                      Без предоплаты. Подтвердим время в удобном мессенджере.
+                    <p className="text-[12px] font-light leading-snug text-white/40 sm:max-w-[260px] sm:text-right">
+                      Без предоплаты. Отправляя заявку, вы соглашаетесь с{" "}
+                      <a href={STUDIO_INFO.links.privacy} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white">
+                        политикой обработки персональных данных
+                      </a>
+                      .
                     </p>
                   </div>
                 </form>
@@ -367,8 +344,19 @@ export function BookingFooter() {
           </Reveal>
         </div>
 
+        {/* Telegram (as on detailinga.ru) */}
+        <Reveal className="mt-20 flex flex-col items-start justify-between gap-5 border-y border-white/10 py-8 sm:flex-row sm:items-center">
+          <p className="text-[20px] font-light leading-snug text-[#F3F3F1] sm:text-[24px]">
+            Актуальные работы и акции — в нашем Telegram
+          </p>
+          <a href={STUDIO_INFO.links.telegramChannel} target="_blank" rel="noopener noreferrer" className="btn-ghost shrink-0">
+            <Send className="h-3.5 w-3.5" aria-hidden="true" />
+            Подписаться
+          </a>
+        </Reveal>
+
         {/* bottom bar */}
-        <div className="mt-28 flex flex-col gap-6 border-t border-white/10 pt-8 text-[11px] uppercase tracking-[0.2em] text-white/40 lg:flex-row lg:items-center lg:justify-between">
+        <div className="mt-8 flex flex-col gap-6 text-[11px] uppercase tracking-[0.2em] text-white/40 lg:flex-row lg:items-center lg:justify-between">
           <nav aria-label="Ссылки студии" className="flex flex-wrap gap-x-8 gap-y-3">
             {[
               { label: "detailinga.ru", href: STUDIO_INFO.links.website },
@@ -376,6 +364,7 @@ export function BookingFooter() {
               { label: "YouTube", href: STUDIO_INFO.links.youtube },
               { label: "Telegram-канал", href: STUDIO_INFO.links.telegramChannel },
               { label: "Яндекс Карты · 5.0", href: STUDIO_INFO.links.yandexMaps },
+              { label: "Политика конфиденциальности", href: STUDIO_INFO.links.privacy },
             ].map((l) => (
               <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="nav-link transition-colors hover:text-white">
                 {l.label}

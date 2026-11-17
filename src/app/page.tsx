@@ -1,7 +1,8 @@
 import { Header } from "@/components/Header";
 import { HeroImage } from "@/components/HeroImage";
 import { ServiceCatalog } from "@/components/ServiceCatalog";
-import { ServiceConfigurator } from "@/components/ServiceConfigurator";
+import { DirectionsSection } from "@/components/DirectionsSection";
+import { CallbackModal } from "@/components/CallbackModal";
 import { StudioProcess } from "@/components/StudioProcess";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BookingFooter } from "@/components/BookingFooter";
@@ -21,13 +22,14 @@ export default function HomePage() {
       <main id="main-content">
         <HeroImage />
         <ServiceCatalog />
-        <ServiceConfigurator />
+        <DirectionsSection />
         <StudioProcess />
         <ReviewsSection />
       </main>
       <BookingFooter />
       <CarePlanBar />
       <CarePlanDrawer />
+      <CallbackModal />
     </>
   );
 }

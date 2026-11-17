@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { Check, Plus } from "lucide-react";
 import { SERVICE_CATEGORIES, SERVICES, type ServiceCategory } from "@/data/services";
 import { useCarePlan } from "@/context/CarePlanContext";
@@ -54,18 +54,15 @@ export function ServiceCatalog() {
 
         {/* Price list */}
         <div className="mt-10 border-t border-white/10">
-          <AnimatePresence mode="popLayout" initial={false}>
             {(expanded ? list : list.slice(0, VISIBLE)).map((service, i) => {
               const added = isInPlan(service.id);
               return (
                 <motion.article
                   key={service.id}
-                  layout
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: Math.min(i, 6) * 0.04 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
                   className="group relative grid grid-cols-[1fr_auto] items-start gap-x-6 gap-y-3 border-b border-white/10 py-6 transition-colors duration-500 hover:bg-white/[0.018] sm:py-9 lg:grid-cols-[72px_minmax(0,1.1fr)_minmax(0,1fr)_160px_150px] lg:items-center lg:gap-x-10"
                 >
                   <span className="hidden text-[11px] tabular-nums tracking-[0.2em] text-white/35 lg:block">
@@ -115,7 +112,6 @@ export function ServiceCatalog() {
                 </motion.article>
               );
             })}
-          </AnimatePresence>
         </div>
 
         {list.length > VISIBLE && (

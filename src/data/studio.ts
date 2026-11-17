@@ -28,6 +28,7 @@ export const STUDIO_INFO = {
   },
   links: {
     website: "https://detailinga.ru",
+    privacy: "https://detailinga.ru/personal",
     yandexMaps:
       "https://yandex.ru/maps/org/salon_tochka_deteylinga/156977246565/?ll=37.370121%2C55.841742&z=19",
     yandexMapsShort: "https://yandex.ru/maps/-/CXSWf083",

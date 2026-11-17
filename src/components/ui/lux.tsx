@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** Fade-up + de-blur when scrolled into view. */
+/** Gentle fade-up when scrolled into view (no blur: cheap on phones, no layout shift). */
 export function Reveal({
   children,
   className,
   delay = 0,
-  y = 28,
+  y = 16,
   as = "div",
 }: {
   children: React.ReactNode;
@@ -27,9 +27,9 @@ export function Reveal({
     <Comp
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y, filter: "blur(8px)" }}
-      animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
-      transition={{ duration: 1.1, ease: EASE, delay }}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.8, ease: EASE, delay }}
     >
       {children}
     </Comp>

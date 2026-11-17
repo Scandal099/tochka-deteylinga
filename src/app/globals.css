@@ -508,3 +508,7 @@ html.lenis body {
     scroll-snap-align: start;
   }
 }
+.btn-lux--plain {
+  padding: 0 24px;
+  gap: 10px;
+}

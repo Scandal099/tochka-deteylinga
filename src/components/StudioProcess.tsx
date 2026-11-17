@@ -4,6 +4,7 @@ import React from "react";
 import { Award } from "lucide-react";
 import { STUDIO_PROCESS_STEPS } from "@/data/portfolio-reviews";
 import { STUDIO_INFO } from "@/data/studio";
+import { GUARANTEES } from "@/data/directions";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Reveal, SectionHeading } from "@/components/ui/lux";
 
@@ -39,6 +40,18 @@ export function StudioProcess() {
                 {s.value}
               </p>
               <p className="mt-4 text-[10px] uppercase tracking-[0.24em] text-white/45">{s.label}</p>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* guarantees (as on detailinga.ru) */}
+        <div className="mt-14 grid grid-cols-1 gap-3 sm:mt-20 md:grid-cols-3 md:gap-5">
+          {GUARANTEES.map((g, i) => (
+            <Reveal key={g} delay={i * 0.06} className="card-lux flex items-start gap-5 p-6 sm:p-8">
+              <span className="font-display text-[34px] font-extralight leading-none tabular-nums text-white/30">
+                0{i + 1}
+              </span>
+              <p className="pt-1 text-[15px] font-light leading-snug text-[#F3F3F1]">{g}</p>
             </Reveal>
           ))}
         </div>
