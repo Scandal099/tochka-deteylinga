@@ -139,7 +139,7 @@ export function ServiceConfigurator() {
       <div className="wrap-lux">
         <SectionHeading
           id="configurator-heading"
-          index="03"
+          index="02"
           eyebrow="Персональный подбор"
           title="Подбор"
           accent="за 10 секунд"
@@ -147,23 +147,23 @@ export function ServiceConfigurator() {
         />
 
         <div className="mt-16 grid grid-cols-1 gap-12 sm:mt-20 lg:grid-cols-12 lg:gap-16">
-          <div className="space-y-12 lg:col-span-7">
+          <div className="space-y-9 sm:space-y-12 lg:col-span-7">
             <Step index="01" label="Класс автомобиля">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 {CAR_CLASSES.map((item) => (
                   <Option key={item.id} active={carClass === item.id} onClick={() => setCarClass(item.id)} label={item.label} hint={item.hint} />
                 ))}
               </div>
             </Step>
             <Step index="02" label="Состояние ЛКП и салона">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
                 {CONDITIONS.map((item) => (
                   <Option key={item.id} active={condition === item.id} onClick={() => setCondition(item.id)} label={item.label} hint={item.hint} />
                 ))}
               </div>
             </Step>
             <Step index="03" label="Главная цель">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 {GOALS.map((item) => (
                   <Option key={item.id} active={goal === item.id} onClick={() => setGoal(item.id)} label={item.label} hint={item.hint} />
                 ))}
@@ -295,21 +295,21 @@ function Option({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "group relative flex min-h-[76px] cursor-pointer items-center justify-between gap-4 rounded-[20px] border px-5 py-4 text-left transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        "group relative flex min-h-[64px] cursor-pointer items-center justify-between gap-3 rounded-[16px] border px-3.5 py-3 text-left sm:min-h-[76px] sm:gap-4 sm:rounded-[20px] sm:px-5 sm:py-4 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
         active
           ? "border-white/70 bg-white/[0.06]"
           : "border-white/[0.08] bg-white/[0.015] hover:border-white/25 hover:bg-white/[0.03]"
       )}
     >
       <span>
-        <span className={cn("block text-[15px] font-light transition-colors", active ? "text-[#F3F3F1]" : "text-white/75")}>
+        <span className={cn("block text-[13.5px] font-light leading-snug transition-colors sm:text-[15px]", active ? "text-[#F3F3F1]" : "text-white/75")}>
           {label}
         </span>
-        <span className="mt-1 block text-[10px] uppercase tracking-[0.18em] text-white/40">{hint}</span>
+        <span className="mt-1 block text-[9px] uppercase leading-snug tracking-[0.14em] text-white/40 sm:text-[10px] sm:tracking-[0.18em]">{hint}</span>
       </span>
       <span
         className={cn(
-          "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-all duration-500",
+          "hidden h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-all duration-500 sm:flex",
           active ? "border-white bg-white" : "border-white/25"
         )}
       >

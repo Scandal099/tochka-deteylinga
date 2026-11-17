@@ -101,7 +101,7 @@ export function BookingFooter() {
       <div className="wrap-lux">
         <SectionHeading
           id="booking-heading"
-          index="06"
+          index="05"
           eyebrow="Запись и контакты"
           title="Студия"
           accent="в Митино"

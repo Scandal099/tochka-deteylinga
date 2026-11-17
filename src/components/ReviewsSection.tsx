@@ -14,7 +14,7 @@ export function ReviewsSection() {
       <div className="wrap-lux">
         <SectionHeading
           id="reviews-heading"
-          index="05"
+          index="04"
           eyebrow="Отзывы с Яндекс Карт"
           title="Доверие"
           accent="владельцев"
@@ -46,12 +46,12 @@ export function ReviewsSection() {
 
         {/* featured quote */}
         {featured && (
-          <Reveal className="mt-20 grid grid-cols-1 gap-8 border-t border-white/10 pt-14 lg:grid-cols-12">
-            <span aria-hidden="true" className="font-serif text-[140px] leading-[0.6] text-white/15 lg:col-span-1">
+          <Reveal className="mt-14 grid grid-cols-1 gap-4 border-t border-white/10 pt-10 sm:mt-20 sm:gap-8 sm:pt-14 lg:grid-cols-12">
+            <span aria-hidden="true" className="font-serif text-[90px] leading-[0.6] text-white/15 sm:text-[140px] lg:col-span-1">
               “
             </span>
             <figure className="lg:col-span-10">
-              <blockquote className="font-serif text-[clamp(26px,3.2vw,44px)] font-light italic leading-[1.25] tracking-[-0.01em] text-[#F3F3F1]">
+              <blockquote className="font-serif text-[clamp(22px,3.2vw,44px)] font-light italic leading-[1.25] tracking-[-0.01em] text-[#F3F3F1]">
                 {featured.text}
               </blockquote>
               <figcaption className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] uppercase tracking-[0.22em] text-white/45">
@@ -65,7 +65,7 @@ export function ReviewsSection() {
         )}
 
         {/* aspect bars */}
-        <div className="mt-20 grid grid-cols-1 gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-7 sm:mt-20 sm:gap-x-12 sm:gap-y-8 lg:grid-cols-4">
           {STUDIO_INFO.aspectHighlights.map((a, i) => (
             <Reveal key={a.label} delay={i * 0.06}>
               <div className="flex items-baseline justify-between">
@@ -81,9 +81,9 @@ export function ReviewsSection() {
         </div>
 
         {/* review grid */}
-        <div className="mt-20 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="swipe-row mt-14 sm:mt-20 sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {rest.map((rev, i) => (
-            <Reveal as="article" key={rev.id} delay={(i % 3) * 0.08} className="card-lux flex flex-col justify-between p-8 transition-colors duration-700 hover:border-white/20">
+            <Reveal as="article" key={rev.id} delay={(i % 3) * 0.08} className="card-lux flex flex-col justify-between p-6 transition-colors sm:p-8 duration-700 hover:border-white/20">
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex gap-0.5" aria-label={`Оценка ${rev.rating} из 5`}>

@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { label: "Услуги", href: "#services" },
-  { label: "До / После", href: "#portfolio" },
   { label: "Подбор", href: "#configurator" },
   { label: "Подход", href: "#process" },
   { label: "Контакты", href: "#booking" },

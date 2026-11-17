@@ -477,3 +477,34 @@ html.lenis body {
     background: linear-gradient(to bottom, #08080a 0%, rgba(8, 8, 10, 0) 28%, rgba(8, 8, 10, 0) 68%, #08080a 96%);
   }
 }
+
+/* ---------- Mobile ergonomics ---------- */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 639px) {
+  .section-lux {
+    padding-block: 72px;
+  }
+  /* horizontal swipe rows (process steps, reviews) */
+  .swipe-row {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: -24px;
+    padding-inline: 24px;
+    scroll-padding-inline: 24px;
+    scrollbar-width: none;
+  }
+  .swipe-row::-webkit-scrollbar {
+    display: none;
+  }
+  .swipe-row > * {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+}

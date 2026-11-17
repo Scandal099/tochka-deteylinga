@@ -21,7 +21,7 @@ export function CarePlanBar() {
     <div
       className={cn(
         "pointer-events-none fixed bottom-4 right-4 z-40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:bottom-6 sm:right-6",
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 [&_button]:pointer-events-none"
+        visible && count > 0 ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 [&_button]:pointer-events-none"
       )}
     >
       <button

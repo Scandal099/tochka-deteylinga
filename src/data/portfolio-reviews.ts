@@ -1,18 +1,3 @@
-export interface PortfolioCase {
-  id: string;
-  carModel: string;
-  title: string;
-  workSummary: string;
-  duration: string;
-  priceTag: string;
-  beforeImage: string;
-  afterImage: string;
-  beforeLabel: string;
-  afterLabel: string;
-  serviceIds: string[];
-  sourceNote: string;
-}
-
 export interface ProcessStage {
   step: string;
   title: string;
@@ -29,54 +14,6 @@ export interface StudioReview {
   serviceTag: string;
   text: string;
 }
-
-export const PORTFOLIO_CASES: readonly PortfolioCase[] = [
-  {
-    id: "case-bmw-f32",
-    carModel: "BMW 4 Series (F32)",
-    title: "Восстановительная полировка и 2 слоя керамики",
-    workSummary:
-      "Удаление моек-голограмм, глубокая коррекция лака в 2 прохода и нанесение двухслойной керамической защиты.",
-    duration: "2 дня",
-    priceTag: "от 30 000 ₽",
-    beforeImage: "/images/portfolio/case-polish-before.webp",
-    afterImage: "/images/portfolio/case-polish-after.webp",
-    beforeLabel: "До: паутина и голограммы под светом",
-    afterLabel: "После: зеркальный глянец + 2 слоя керамики",
-    serviceIds: ["body-polish-ceramic-duo", "interior-detail-clean"],
-    sourceNote: "Кейс на базе отзыва клиента BMW F32 и прайса студии",
-  },
-  {
-    id: "case-ppf-antichrome",
-    carModel: "Спорткупе · Infiniti Q60S / аналог",
-    title: "Оклейка «зон риска» полиуретаном + Антихром",
-    workSummary:
-      "Защита передней части кузова антигравийной полиуретановой плёнкой с подворотами и перевод молдингов в чёрный глянец.",
-    duration: "2 дня",
-    priceTag: "от 85 000 ₽",
-    beforeImage: "/images/portfolio/case-ppf-before.webp",
-    afterImage: "/images/portfolio/case-ppf-after.webp",
-    beforeLabel: "До: следы трассы и заводской хром",
-    afterLabel: "После: полиуретан 200 мкм + монохромный антихром",
-    serviceIds: ["protect-ppf-risk-zones", "protect-antichrome"],
-    sourceNote: "Реальные услуги оклейки из галереи и прайса Яндекс Карт",
-  },
-  {
-    id: "case-interior-leather",
-    carModel: "Премиальный салон · Porsche 911",
-    title: "Детейлинг-химчистка и защита кожи керамикой",
-    workSummary:
-      "Очистка руля, перфорации и боковин кресел без залоснивания, консервация кожи матовым защитным составом.",
-    duration: "1 день",
-    priceTag: "от 25 000 ₽",
-    beforeImage: "/images/portfolio/case-interior-before.webp",
-    afterImage: "/images/portfolio/case-interior-after.webp",
-    beforeLabel: "До: глянцевый износ и следы эксплуатации",
-    afterLabel: "После: матовая заводская кожа и керамика",
-    serviceIds: ["interior-detail-clean", "interior-leather-ceramic"],
-    sourceNote: "Прайс-программа химчистки и защиты кожи студии",
-  },
-] as const;
 
 export const STUDIO_PROCESS_STEPS: readonly ProcessStage[] = [
   {

@@ -138,7 +138,11 @@ export function LuxTabs<T extends string>({
   counts?: Partial<Record<T, number>>;
 }) {
   return (
-    <div role="tablist" aria-label={label} className="flex flex-wrap gap-x-7 gap-y-3">
+    <div
+      role="tablist"
+      aria-label={label}
+      className="no-scrollbar -mx-6 flex gap-x-7 gap-y-3 overflow-x-auto whitespace-nowrap px-6 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+    >
       {items.map((item) => {
         const active = item === value;
         return (
@@ -149,7 +153,7 @@ export function LuxTabs<T extends string>({
             aria-selected={active}
             onClick={() => onChange(item)}
             className={cn(
-              "group relative cursor-pointer pb-2 text-[11px] uppercase tracking-[0.22em] transition-colors duration-500",
+              "group relative shrink-0 cursor-pointer pb-2 text-[11px] uppercase tracking-[0.22em] transition-colors duration-500",
               active ? "text-[#F3F3F1]" : "text-white/40 hover:text-white/80"
             )}
           >

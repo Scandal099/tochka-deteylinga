@@ -1,7 +1,6 @@
 import { Header } from "@/components/Header";
 import { HeroImage } from "@/components/HeroImage";
 import { ServiceCatalog } from "@/components/ServiceCatalog";
-import { BeforeAfterPortfolio } from "@/components/BeforeAfterPortfolio";
 import { ServiceConfigurator } from "@/components/ServiceConfigurator";
 import { StudioProcess } from "@/components/StudioProcess";
 import { ReviewsSection } from "@/components/ReviewsSection";
@@ -22,7 +21,6 @@ export default function HomePage() {
       <main id="main-content">
         <HeroImage />
         <ServiceCatalog />
-        <BeforeAfterPortfolio />
         <ServiceConfigurator />
         <StudioProcess />
         <ReviewsSection />

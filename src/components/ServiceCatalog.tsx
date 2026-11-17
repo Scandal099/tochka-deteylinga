@@ -9,9 +9,11 @@ import { LuxTabs, SectionHeading } from "@/components/ui/lux";
 
 type FilterValue = "Все" | ServiceCategory;
 const FILTERS: readonly FilterValue[] = ["Все", ...SERVICE_CATEGORIES];
+const VISIBLE = 6;
 
 export function ServiceCatalog() {
   const [category, setCategory] = useState<FilterValue>("Все");
+  const [expanded, setExpanded] = useState(false);
   const { isInPlan, toggleItem } = useCarePlan();
 
   const counts = useMemo(() => {
@@ -38,13 +40,22 @@ export function ServiceCatalog() {
         />
 
         <div className="mt-16 sm:mt-20">
-          <LuxTabs items={FILTERS} value={category} onChange={setCategory} label="Фильтр услуг" counts={counts} />
+          <LuxTabs
+            items={FILTERS}
+            value={category}
+            onChange={(c) => {
+              setCategory(c);
+              setExpanded(false);
+            }}
+            label="Фильтр услуг"
+            counts={counts}
+          />
         </div>
 
         {/* Price list */}
         <div className="mt-10 border-t border-white/10">
           <AnimatePresence mode="popLayout" initial={false}>
-            {list.map((service, i) => {
+            {(expanded ? list : list.slice(0, VISIBLE)).map((service, i) => {
               const added = isInPlan(service.id);
               return (
                 <motion.article
@@ -55,7 +66,7 @@ export function ServiceCatalog() {
                   exit={{ opacity: 0 }}
                   viewport={{ once: true, margin: "0px 0px -8% 0px" }}
                   transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: Math.min(i, 6) * 0.04 }}
-                  className="group relative grid grid-cols-[1fr_auto] items-start gap-x-6 gap-y-4 border-b border-white/10 py-7 transition-colors duration-500 hover:bg-white/[0.018] sm:py-9 lg:grid-cols-[72px_minmax(0,1.1fr)_minmax(0,1fr)_160px_150px] lg:items-center lg:gap-x-10"
+                  className="group relative grid grid-cols-[1fr_auto] items-start gap-x-6 gap-y-3 border-b border-white/10 py-6 transition-colors duration-500 hover:bg-white/[0.018] sm:py-9 lg:grid-cols-[72px_minmax(0,1.1fr)_minmax(0,1fr)_160px_150px] lg:items-center lg:gap-x-10"
                 >
                   <span className="hidden text-[11px] tabular-nums tracking-[0.2em] text-white/35 lg:block">
                     {String(i + 1).padStart(2, "0")}
@@ -70,12 +81,12 @@ export function ServiceCatalog() {
                         </span>
                       )}
                     </div>
-                    <h3 className="mt-2.5 text-[20px] font-light leading-snug tracking-[-0.01em] text-[#F3F3F1] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5 sm:text-[24px]">
+                    <h3 className="mt-2 text-[18px] font-light leading-snug tracking-[-0.01em] text-[#F3F3F1] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5 sm:text-[24px]">
                       {service.name}
                     </h3>
                   </div>
 
-                  <p className="col-span-2 text-[14px] font-light leading-relaxed text-white/50 lg:col-span-1">
+                  <p className="col-span-2 text-[14px] font-light leading-relaxed text-white/50 max-sm:hidden lg:col-span-1">
                     {service.shortDescription}
                     {service.highlightNote && (
                       <span className="mt-2 block text-[12px] text-white/70">— {service.highlightNote}</span>
@@ -83,7 +94,7 @@ export function ServiceCatalog() {
                   </p>
 
                   <div className="col-start-1 row-start-3 lg:col-start-auto lg:row-start-auto">
-                    <p className="font-display text-[22px] font-light tabular-nums tracking-[-0.01em] text-[#F3F3F1]">
+                    <p className="font-display text-[20px] font-light tabular-nums sm:text-[22px] tracking-[-0.01em] text-[#F3F3F1]">
                       {service.priceDisplay}
                     </p>
                     <p className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-white/40">{service.duration}</p>
@@ -106,6 +117,14 @@ export function ServiceCatalog() {
             })}
           </AnimatePresence>
         </div>
+
+        {list.length > VISIBLE && (
+          <div className="mt-10 flex justify-center">
+            <button type="button" onClick={() => setExpanded((v) => !v)} className="btn-ghost cursor-pointer">
+              {expanded ? "Свернуть" : `Показать все услуги · ${list.length}`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

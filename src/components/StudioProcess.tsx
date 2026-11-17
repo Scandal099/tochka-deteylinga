@@ -20,7 +20,7 @@ export function StudioProcess() {
       <div className="wrap-lux">
         <SectionHeading
           id="process-heading"
-          index="04"
+          index="03"
           eyebrow="Подход и регламент"
           title="Стандарты"
           accent="точки детейлинга"
@@ -28,12 +28,12 @@ export function StudioProcess() {
         />
 
         {/* stats */}
-        <div className="mt-20 grid grid-cols-2 border-y border-white/10 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 border-y border-white/10 sm:mt-20 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <Reveal
               key={s.label}
               delay={i * 0.08}
-              className="border-white/10 px-1 py-9 sm:px-8 sm:py-12 [&:nth-child(odd)]:border-r lg:border-r lg:last:border-r-0 max-lg:[&:nth-child(-n+2)]:border-b"
+              className="border-white/10 px-1 py-7 max-sm:[&:nth-child(even)]:pl-5 sm:px-8 sm:py-12 [&:nth-child(odd)]:border-r lg:border-r lg:last:border-r-0 max-lg:[&:nth-child(-n+2)]:border-b"
             >
               <p className="font-display text-[clamp(48px,6vw,88px)] font-extralight leading-none tracking-[-0.04em] text-[#F3F3F1] tabular-nums">
                 {s.value}
@@ -44,7 +44,7 @@ export function StudioProcess() {
         </div>
 
         {/* process timeline */}
-        <ol className="mt-24 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-5">
+        <ol className="swipe-row mt-14 sm:mt-24 sm:grid sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14 lg:grid-cols-5">
           {STUDIO_PROCESS_STEPS.map((stage, i) => (
             <Reveal as="li" key={stage.step} delay={i * 0.08} className="group relative">
               <div className="flex items-center gap-4">
@@ -65,7 +65,7 @@ export function StudioProcess() {
         </ol>
 
         {/* award + amenities */}
-        <Reveal className="card-lux mt-24 grid grid-cols-1 gap-10 p-8 sm:p-12 lg:grid-cols-12">
+        <Reveal className="card-lux mt-16 grid sm:mt-24 grid-cols-1 gap-10 p-8 sm:p-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Award className="h-6 w-6 text-white/70" aria-hidden="true" strokeWidth={1.25} />
             <p className="mt-6 text-[26px] font-light leading-tight tracking-[-0.01em] text-[#F3F3F1]">
