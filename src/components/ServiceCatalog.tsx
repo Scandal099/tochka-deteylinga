@@ -2,9 +2,9 @@
 
 import React, { useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { Check, Plus } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SERVICE_CATEGORIES, SERVICES, type ServiceCategory } from "@/data/services";
-import { useCarePlan } from "@/context/CarePlanContext";
+import { openCallback } from "@/lib/callback";
 import { LuxTabs, SectionHeading } from "@/components/ui/lux";
 
 type FilterValue = "Все" | ServiceCategory;
@@ -14,7 +14,6 @@ const VISIBLE = 6;
 export function ServiceCatalog() {
   const [category, setCategory] = useState<FilterValue>("Все");
   const [expanded, setExpanded] = useState(false);
-  const { isInPlan, toggleItem } = useCarePlan();
 
   const counts = useMemo(() => {
     const c: Partial<Record<FilterValue, number>> = { Все: SERVICES.length };
@@ -36,7 +35,7 @@ export function ServiceCatalog() {
           eyebrow="Услуги и прайс"
           title="Услуги"
           accent="и защита"
-          description="Цены сверены с прайсом студии. Отмечайте позиции — они сразу попадут в «Мой план ухода» и в форму записи."
+          description="Цены сверены с прайсом студии. Нажмите «Записаться» у нужной услуги — перезвоним и подберём время."
         />
 
         <div className="mt-16 sm:mt-20">
@@ -55,7 +54,6 @@ export function ServiceCatalog() {
         {/* Price list */}
         <div className="mt-10 border-t border-white/10">
             {(expanded ? list : list.slice(0, VISIBLE)).map((service, i) => {
-              const added = isInPlan(service.id);
               return (
                 <motion.article
                   key={service.id}
@@ -100,13 +98,12 @@ export function ServiceCatalog() {
                   <div className="col-start-2 row-start-3 flex justify-end lg:col-start-auto lg:row-start-auto">
                     <button
                       type="button"
-                      onClick={() => toggleItem(service.id)}
-                      aria-pressed={added}
-                      aria-label={added ? `Убрать «${service.name}» из плана` : `Добавить «${service.name}» в план`}
+                      onClick={() => openCallback(service.name)}
+                      aria-label={`Записаться: ${service.name}`}
                       className="btn-add"
                     >
-                      {added ? <Check className="h-3.5 w-3.5" aria-hidden="true" /> : <Plus className="h-3.5 w-3.5" aria-hidden="true" />}
-                      {added ? "В плане" : "В план"}
+                      Записаться
+                      <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                     </button>
                   </div>
                 </motion.article>

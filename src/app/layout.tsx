@@ -5,7 +5,6 @@ import {
   Manrope,
   Montserrat,
 } from "next/font/google";
-import { CarePlanProvider } from "@/context/CarePlanContext";
 import { STUDIO_INFO } from "@/data/studio";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
@@ -62,7 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${STUDIO_INFO.brandName} — Детейлинг, который видно по отражению`,
     description:
-      "Премиальный детейлинг в Москве, Митинская ул., 15. Интерактивный 7-зонный осмотр, реальный прайс и персональный план ухода.",
+      "Премиальный детейлинг в Москве, Митинская ул., 15. Полировка, керамика, плёнка PPF, химчистка и шумоизоляция. Реальный прайс и запись онлайн.",
     type: "website",
     locale: "ru_RU",
   },
@@ -84,7 +83,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-[#08080A] text-[#F5F5F5] antialiased">
         <SmoothScroll />
-        <CarePlanProvider>{children}</CarePlanProvider>
+        {children}
       </body>
     </html>
   );

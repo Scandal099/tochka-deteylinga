@@ -6,8 +6,6 @@ import { CallbackModal } from "@/components/CallbackModal";
 import { StudioProcess } from "@/components/StudioProcess";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BookingFooter } from "@/components/BookingFooter";
-import { CarePlanBar } from "@/components/CarePlanBar";
-import { CarePlanDrawer } from "@/components/CarePlanDrawer";
 
 export default function HomePage() {
   return (
@@ -27,8 +25,6 @@ export default function HomePage() {
         <ReviewsSection />
       </main>
       <BookingFooter />
-      <CarePlanBar />
-      <CarePlanDrawer />
       <CallbackModal />
     </>
   );

@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Menu, X, ArrowUpRight, Sparkles, Phone } from "lucide-react";
+import { Menu, X, ArrowUpRight, Phone } from "lucide-react";
 import { STUDIO_INFO } from "@/data/studio";
-import { useCarePlan } from "@/context/CarePlanContext";
 import { cn } from "@/lib/utils";
 import { openCallback } from "@/lib/callback";
 
@@ -16,7 +15,6 @@ const NAV_ITEMS = [
 ] as const;
 
 export function Header() {
-  const { count, setDrawerOpen } = useCarePlan();
   const [mode, setMode] = useState<"top" | "tour" | "page">("top");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -69,23 +67,13 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => setDrawerOpen(true)}
-            aria-label={`Открыть мой план ухода, выбрано услуг: ${count}`}
-            className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-full border border-white/15 px-4 text-[11px] uppercase tracking-[0.18em] text-[#F3F3F1] transition-colors duration-500 hover:border-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          <a
+            href={STUDIO_INFO.phones.detailing.href}
+            aria-label={`Позвонить: ${STUDIO_INFO.phones.detailing.display}`}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-[#F3F3F1] transition-colors hover:border-white/40 sm:hidden"
           >
-            <Sparkles className="h-3.5 w-3.5 text-white/55" aria-hidden="true" />
-            <span className="hidden md:inline">План ухода</span>
-            <span
-              className={cn(
-                "inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[10px] font-medium tabular-nums transition-colors",
-                count > 0 ? "bg-[#F3F3F1] text-[#08080A]" : "bg-white/10 text-white/60"
-              )}
-            >
-              {count}
-            </span>
-          </button>
+            <Phone className="h-4 w-4" aria-hidden="true" />
+          </a>
 
           <a
             href={STUDIO_INFO.phones.detailing.href}

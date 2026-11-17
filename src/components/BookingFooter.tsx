@@ -8,18 +8,13 @@ import {
   MessageCircle,
   Navigation,
   Send,
-  Sparkles,
-  X,
 } from "lucide-react";
 import { STUDIO_INFO } from "@/data/studio";
-import { useCarePlan } from "@/context/CarePlanContext";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Reveal, SectionHeading } from "@/components/ui/lux";
 
 export function BookingFooter() {
-  const { services, totalFrom, removeItem } = useCarePlan();
-
   const [carModel, setCarModel] = useState("");
   const [clientName, setClientName] = useState("");
   const [contact, setContact] = useState("");
@@ -29,28 +24,16 @@ export function BookingFooter() {
   const [copied, setCopied] = useState(false);
 
   const formattedOrderText = useMemo(() => {
-    const planLines =
-      services.length > 0
-        ? services
-            .map((s, idx) => `${idx + 1}. ${s.name} (${s.priceDisplay})`)
-            .join("\n")
-        : "Консультация и осмотр в студии";
-    const totalLine =
-      totalFrom > 0 ? `Ориентир по прайсу: от ${totalFrom.toLocaleString("ru-RU")} ₽` : "";
-
     return [
       `Заявка в студию ${STUDIO_INFO.brandName}`,
       `Автомобиль: ${carModel.trim() || "Не указан"}`,
       `Имя: ${clientName.trim() || "Не указано"}`,
       `Телефон: ${contact.trim()}`,
-      `План ухода:`,
-      planLines,
-      totalLine,
       comment.trim() ? `Комментарий: ${comment.trim()}` : "",
     ]
       .filter(Boolean)
       .join("\n");
-  }, [carModel, clientName, comment, contact, services, totalFrom]);
+  }, [carModel, clientName, comment, contact]);
 
   const whatsappHref = useMemo(() => {
     return `https://wa.me/79299991819?text=${encodeURIComponent(formattedOrderText)}`;
@@ -163,53 +146,8 @@ export function BookingFooter() {
                     Получите персональное предложение под ваш автомобиль.
                   </p>
                 </div>
-                {totalFrom > 0 && (
-                  <p className="text-right">
-                    <span className="label-lux">Ориентир</span>
-                    <span className="mt-1 block font-display text-[26px] font-extralight tabular-nums text-[#F3F3F1]">
-                      от {totalFrom.toLocaleString("ru-RU")} ₽
-                    </span>
-                  </p>
-                )}
               </div>
 
-              {/* plan */}
-              <div className="mt-10">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="label-lux inline-flex items-center gap-2">
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                    Мой план ухода · {services.length}
-                  </span>
-                  <a href="#services" className="text-[10px] uppercase tracking-[0.2em] text-white/50 transition-colors hover:text-white">
-                    {services.length > 0 ? "Добавить ещё" : "Выбрать услуги"}
-                  </a>
-                </div>
-                {services.length === 0 ? (
-                  <p className="mt-3 text-[13px] font-light text-white/40">
-                    Пока пусто — можно записаться просто на диагностику или отметить услуги выше.
-                  </p>
-                ) : (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {services.map((srv) => (
-                      <span
-                        key={srv.id}
-                        className="inline-flex items-center gap-2 rounded-full border border-white/15 py-1.5 pl-4 pr-1.5 text-[12px] font-light text-[#F3F3F1]"
-                      >
-                        {srv.name}
-                        <span className="text-[11px] tabular-nums text-white/45">{srv.priceDisplay}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeItem(srv.id)}
-                          aria-label={`Убрать ${srv.name}`}
-                          className="inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
-                        >
-                          <X className="h-3 w-3" aria-hidden="true" />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
 
               {!submitted ? (
                 <form onSubmit={handleSubmit} className="mt-10 space-y-8" noValidate>
